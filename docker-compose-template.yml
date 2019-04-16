@@ -1,0 +1,84 @@
+version: '3.7'
+
+services:
+  metrics-storage:
+    image: local/metrics-storage:1.0
+    depends_on:
+      - database
+    environment:
+      - APP_ID=metrics_storage_service
+      - APP_NAME=Metrics Storage
+      - DJANGO_SETTINGS_MODULE=metrics_storage_service.settings
+      - DEBUG=
+      - SECRET_KEY=
+      - LOGGING_LEVEL=INFO
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - LOGGER_NAME=metrics_storage_service
+      - DATABASE_NAME=metrics_storage
+      - DATABASE_USER_NAME=metrics_storage
+      - DATABASE_PASSWORD=
+      - ADMIN_USER_NAME=admin
+      - ADMIN_EMAIL=
+      - ADMIN_PASSWORD=
+    volumes:
+      - VOLUMES_DIRECTORY_PATH/metrics-storage/static:/main_project/static
+      - VOLUMES_DIRECTORY_PATH/metrics-storage/media:/main_project/media
+      - VOLUMES_DIRECTORY_PATH/sockets:/main_project/sockets
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: "3"
+    ulimits:
+      nofile:
+        soft: 10000
+        hard: 12500
+    restart: unless-stopped
+
+  reverse-proxy:
+    image: local/reverse-proxy:1.0
+    depends_on:
+      - metrics-storage
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - HOSTNAME=
+      - STATIC_PATH=/files/static
+      - MEDIA_PATH=/files/media
+      - SERVICE_SOCKET_PATH=/sockets/service.sock
+      - SSL_CERT_PATH=/certs/server.crt
+      - SSL_KEY_PATH=/certs/server.key
+    volumes:
+      - VOLUMES_DIRECTORY_PATH/certs:/certs
+      - VOLUMES_DIRECTORY_PATH/metrics-storage/static:/files/static
+      - VOLUMES_DIRECTORY_PATH/metrics-storage/media:/files/media
+      - VOLUMES_DIRECTORY_PATH/sockets:/sockets
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: "3"
+    ulimits:
+      nofile:
+        soft: 10000
+        hard: 12500
+    restart: unless-stopped
+
+  database:
+    image: local/postgres:1.0
+    expose:
+      - 5432
+    environment:
+      - DATABASE_NAME_metrics_storage=metrics_storage
+      - DATABASE_PASSWORD_metrics_storage=
+      - DATABASE_USER_NAME_metrics_storage=metrics_storage
+    volumes:
+      - VOLUMES_DIRECTORY_PATH/postgres:/var/lib/postgresql/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: "3"
+    restart: unless-stopped

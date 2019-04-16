@@ -1,0 +1,8 @@
+**/.cache/
+**/htmlcov/
+**/__pycache__/
+**/.coverage
+!**/empty
+**/.env
+docker-compose.yml
+volumes/

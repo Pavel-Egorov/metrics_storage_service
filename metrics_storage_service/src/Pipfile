@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+uwsgi = "==2.0.18"
+django = "==2.2"
+python-logging-json-formatter = "==0.1"
+psycopg2-binary = "==2.8.2"
+wrapt = "==1.11.1"
+django-suit = "==0.2.26"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+start = "python manage.py start"
