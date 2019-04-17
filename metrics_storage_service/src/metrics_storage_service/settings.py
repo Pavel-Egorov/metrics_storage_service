@@ -5,13 +5,13 @@ import sys
 
 APP_ID = os.environ['APP_ID']
 
-APP_NAME = os.environ['APP_NAME']
+APP_NAME = os.environ.get('APP_NAME', 'Metrics Storage')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = os.environ['DEBUG']
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -20,6 +20,7 @@ PROJECT_APPS = [
 ]
 
 INSTALLED_APPS = [
+    'django_db_prefix',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
@@ -69,6 +70,8 @@ DATABASES = {
     },
 }
 
+DB_PREFIX = f'{APP_ID}_'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -116,7 +119,7 @@ SUIT_CONFIG = {
 
 # ******************** LOGGING ********************
 
-LOGGER_NAME = os.environ['LOGGER_NAME']
+LOGGER_NAME = os.environ.get('LOGGER_NAME', 'service_logger')
 
 LOGGING_MODE = 'DEBUG'
 
@@ -144,7 +147,7 @@ LOGGING = {
     'loggers': {
         LOGGER_NAME: {
             'handlers': ['console'],
-            'level': os.environ['LOGGING_LEVEL'],
+            'level': os.environ.get('LOGGING_LEVEL', 'INFO'),
         },
     },
 }

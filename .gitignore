@@ -2,6 +2,7 @@
 **/htmlcov/
 **/__pycache__/
 **/.coverage
+**/static/*
 !**/empty
 **/.env
 docker-compose.yml
