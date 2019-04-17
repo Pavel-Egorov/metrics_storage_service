@@ -3,9 +3,22 @@ import logging
 from uuid import uuid1
 
 from django.conf import settings
+from rest_framework import serializers
 from wrapt import decorator
 
 HIDE_ANNOTATION = 'hide'
+
+
+class DynamicSerializer(serializers.Serializer):
+    def get_fields(self):
+        fields = super().get_fields()
+
+        requested_fields = self.context['request'].query_params.get('fields')
+        if not requested_fields:
+            return fields
+
+        filtered_fields = set(requested_fields.split(',')).intersection(fields)
+        return {k: v for k, v in fields.items() if k in filtered_fields}
 
 
 def get_logger(logger_name=settings.LOGGER_NAME):

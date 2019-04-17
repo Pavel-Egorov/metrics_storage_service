@@ -18,10 +18,18 @@ class AdvertisementMetric(models.Model):
     installations_count = models.PositiveIntegerField(null=True, blank=True)
 
     spend_money = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(Decimal('0.0'))],
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal('0.0'))],
     )
     revenue = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(Decimal('0.0'))],
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal('0.0'))],
     )
     cpi = models.DecimalField(
         max_digits=10,
@@ -33,7 +41,7 @@ class AdvertisementMetric(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if self.spend_money is not None and self.installations_count is not None:
+        if self.spend_money is not None and self.installations_count is not None and self.installations_count > 0:
             self.cpi = Decimal(self.spend_money / self.installations_count)
         super().save(*args, **kwargs)
 

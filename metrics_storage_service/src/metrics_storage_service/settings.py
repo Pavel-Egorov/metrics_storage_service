@@ -1,5 +1,6 @@
 import os
 import sys
+from django.conf import settings
 
 # ******************** COMMON ********************
 
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'rest_framework',
 ]
 
 INSTALLED_APPS += PROJECT_APPS
@@ -91,9 +94,15 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+DATE_FORMAT = 'd.m.Y'
 
-USE_L10N = True
+REST_DATE_FORMAT = '%d.%m.%Y'
+
+DATE_INPUT_FORMATS = settings.DATE_INPUT_FORMATS + [REST_DATE_FORMAT]
+
+USE_I18N = False
+
+USE_L10N = False
 
 USE_TZ = True
 
@@ -106,6 +115,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOCAL_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+# ******************** REST FRAMEWORK ********************
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
 
 # ******************** ADMIN ********************
 

@@ -25,8 +25,10 @@ class AdvertisementMetricAdmin(admin.ModelAdmin):
         'channel',
         'country',
         'operating_system',
+        'impressions_count',
         'clicks_count',
         'installations_count',
+        'spend_money',
         'revenue',
         'cpi',
     ]

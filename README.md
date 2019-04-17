@@ -58,3 +58,4 @@ production use smth like LetsEncrypt to create certificates):
 After performing above steps service will be available on `https://<your_server_dns>`.
 Admin interface will be available at `https://<your_server_dns>/admin`.
 To access admin interface use `admin` as username and your `ADMIN_PASSWORD` value as password.
+REST API description and documentation will be available  at `https://<your_server_dns>`.

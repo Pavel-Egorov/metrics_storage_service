@@ -11,6 +11,8 @@ psycopg2-binary = "==2.8.2"
 wrapt = "==1.11.1"
 django-suit = "==0.2.26"
 django-db-prefix = "==1.0.5"
+django-filter = "==2.1.0"
+djangorestframework = "==3.9.2"
 
 [dev-packages]
 
